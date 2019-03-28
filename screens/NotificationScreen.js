@@ -13,43 +13,36 @@ export default class NotificationScreen extends Component {
             <View style={styles.container}>
                 <StatusBar barStyle="dark-content" hidden={false} backgroundColor="#00BCD4" translucent={true} />
                 <Card
-                    title='HELLO WORLD'
+                    title='James likes your post'
                     style={{ marginTop: 50 }}
                 >
                     <Text style={{ marginBottom: 10 }}>
                         The idea with React Native Elements is more about component structure than actual design.
                     </Text>
-                    <Button
-                        icon={<Icon name='code' color='#ffffff' />}
-                        backgroundColor='#03A9F4'
-                        buttonStyle={{ borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0 }}
-                        title='VIEW NOW' />
                 </Card>
                 <Card
-                    title='HELLO WORLD'
+                    title='Sam likes your post'
                     style={{ marginTop: 50 }}
                 >
                     <Text style={{ marginBottom: 10 }}>
                         The idea with React Native Elements is more about component structure than actual design.
                     </Text>
-                    <Button
-                        icon={<Icon name='code' color='#ffffff' />}
-                        backgroundColor='#03A9F4'
-                        buttonStyle={{ borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0 }}
-                        title='VIEW NOW' />
                 </Card>
                 <Card
-                    title='HELLO WORLD'
+                    title='Jack posted for the first time!'
                     style={{ marginTop: 50 }}
                 >
                     <Text style={{ marginBottom: 10 }}>
                         The idea with React Native Elements is more about component structure than actual design.
                     </Text>
-                    <Button
-                        icon={<Icon name='code' color='#ffffff' />}
-                        backgroundColor='#03A9F4'
-                        buttonStyle={{ borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0 }}
-                        title='VIEW NOW' />
+                </Card>
+                <Card
+                    title='Jack just joined the team'
+                    style={{ marginTop: 50 }}
+                >
+                    <Text style={{ marginBottom: 10 }}>
+                        The idea with React Native Elements is more about component structure than actual design.
+                    </Text>
                 </Card>
             </View>
         );
