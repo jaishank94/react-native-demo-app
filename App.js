@@ -18,7 +18,7 @@ export default class App extends React.Component {
   componentDidMount() {
     // AsyncStorage.removeItem('unread_notifications');
     // AsyncStorage.removeItem('read_notifications');
-    // this.storeData();
+    this.storeData();
 
   }
 
