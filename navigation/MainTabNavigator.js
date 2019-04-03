@@ -28,7 +28,7 @@ export default createDrawerNavigator({
   {
       drawerPosition:'right',
       drawerBackgroundColor:'#fff',
-      drawerWidth:200,
+      // drawerWidth:200,
   }
   );
   

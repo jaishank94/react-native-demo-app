@@ -8,12 +8,14 @@ import {
     Image
 } from "react-native";
 import { Card, Button, Icon } from 'react-native-elements';
+import Header from "../components/Header";
 
 export default class HomeScreen extends Component {
 
     render() {
         return (
             <View style={styles.container}>
+            <Header textHeader="Home"></Header>
                 <StatusBar barStyle="dark-content" hidden={true} backgroundColor="#00BCD4" translucent={true} />
                 <ScrollView>
                     <Card

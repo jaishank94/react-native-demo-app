@@ -4,101 +4,139 @@ import {
     StyleSheet,
     StatusBar,
     Text,
-    ScrollView,
-    AsyncStorage
+    AsyncStorage,
+    FlatList,
+    TouchableOpacity
 } from "react-native";
 import { Card, Button, Icon, colors } from 'react-native-elements';
+import Header from "../components/Header";
 
 export default class NotificationScreen extends Component {
 
     constructor(props) {
         super(props)
         this.state = {
-            unReadNotifications: [],
-            readNotifications: []
+            notifications: []
         }
     }
 
     componentDidMount() {
-        AsyncStorage.getItem('read_notifications',
-            (err, result) => {
-                this.setState({
-                    readNotifications: result,
-                });
-            });
-        AsyncStorage.getItem('unread_notifications',
-            (err, result) => {
-                this.setState({
-                    unReadNotifications: result,
-                });
-            });
+        // AsyncStorage.removeItem('notifications');
+        const defaultMsg = [
+            {
+                'name': 'Jack Like your post',
+                'is_read': false
+            },
+            {
+                'name': 'Sam commented your post',
+                'is_read': false
+            },
+            {
+                'name': 'Jenny gave like post',
+                'is_read': true
+            },
+            {
+                'name': 'James Like your post',
+                'is_read': true
+            },
+            {
+                'name': 'Jacob commented your post',
+                'is_read': true
+            },
+            {
+                'name': 'Jerry gave like post',
+                'is_read': true
+            },
+            {
+                'name': 'Juddy Like your post',
+                'is_read': true
+            },
+            {
+                'name': 'Mahim Like your post',
+                'is_read': true
+            },
+            {
+                'name': 'Soni Like your post',
+                'is_read': true
+            },
+            {
+                'name': 'Aishu Like your post',
+                'is_read': true
+            }
+        ];
+
+        (AsyncStorage.getItem('notifications')) ?
+            AsyncStorage.getItem('notifications',
+                (err, result) => {
+                    // console.log(result);
+                    if (!err && result != null) {
+                        this.setState({
+                            notifications: JSON.parse(result),
+                        });
+                    } else {
+                        this.setState({
+                            notifications: defaultMsg
+                        })
+                    }
+                })
+            :
+            null
     }
 
-    renderReadNotifications() {
-        console.log('dads', this.state.readNotifications)
-        return JSON.parse(this.state.readNotifications).map((msg, key) => {
-            return (
-                <Card
-                    key={key}
-                    title={msg.name}
-                    style={{ marginTop: 50 }}
-                >
-                    <Text style={{ marginBottom: 10 }}>
-                        The idea with React Native Elements is more about component structure than actual design.
-                    </Text>
-                </Card>
-            );
-        }
-        )
+    markAsReadNotification(indx) {
+        let items = this.state.notifications;
+        items[indx].is_read = true;
+
+        // console.log(indx)
+        
+        this.setState({
+            notifications: items
+        })
+
+        AsyncStorage.removeItem('notifications');
+        this.renderNotifications();
     }
 
-    renderUnreadNotifications() {
-        let read = JSON.parse(this.state.readNotifications);
-        let unread = JSON.parse(this.state.unReadNotifications);
-
-        const newArray = unread.concat(read);
-
-        AsyncStorage.removeItem('unread_notifications');
-        AsyncStorage.removeItem('read_notifications');
-
-        AsyncStorage.setItem('read_notifications', JSON.stringify(newArray), () => {
-              AsyncStorage.getItem('read_notifications', (err, result) => {
-                console.log('prod',result);
-              });
-          });
-
-        return JSON.parse(this.state.unReadNotifications).map((msg, key) => {
-            return (
-                <Card
-                    key={key}
-                    title={msg.name}
-                    style={{ marginTop: 50 }}
-                >
-                    <Text style={{ marginBottom: 10, color:'red' }}>
-                        The idea with React Native Elements is more about component structure than actual design.
-                    </Text>
-                </Card>
-            );
-        }
-        )
+    renderNotifications() {
+        // console.log(this.state.notifications);
+        AsyncStorage.setItem('notifications', JSON.stringify(this.state.notifications), () => {
+            AsyncStorage.getItem('notifications', (err, result) => {
+                console.log('prod', result);
+            });
+        });
     }
 
     render() {
         return (
             <View style={styles.container}>
+                <Header textHeader="Notifications"></Header>
                 <StatusBar barStyle="dark-content" hidden={true} backgroundColor="#00BCD4" translucent={true} />
-                <ScrollView>
-                    {
-                        (this.state.unReadNotifications && this.state.unReadNotifications !== undefined && this.state.unReadNotifications.length > 0) ?
-                            this.renderUnreadNotifications()
-                            : <Text></Text>
+
+                <FlatList
+                    data={this.state.notifications}
+                    extraData={this.state}
+                    renderItem={({ item, index }) =>
+                        <TouchableOpacity onPress={()=>this.markAsReadNotification(index)}>
+                            <Card
+                                key={item.name}
+                                title={item.name}
+                                style={{ marginTop: 50 }}
+                            >
+                                {
+                                    (item.is_read) ?
+                                        <Text style={{ marginBottom: 10 }}>
+                                            The idea with React Native Elements is more about component structure than actual design.
+                                        </Text>
+                                        :
+                                        <Text style={{ marginBottom: 10, color: 'red' }}>
+                                            This is New
+                                        </Text>
+                                }
+                            </Card>
+                        </TouchableOpacity>
                     }
-                    {
-                        (this.state.readNotifications && this.state.readNotifications !== undefined && this.state.readNotifications.length > 0) ?
-                            this.renderReadNotifications()
-                            : <Text>No New Notifications</Text>
-                    }
-                </ScrollView>
+                    keyExtractor={item => item.name}
+                />
             </View>
         );
     }
